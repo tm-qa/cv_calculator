@@ -11,10 +11,8 @@ import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.*;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -309,6 +307,45 @@ public class TestUtil {
             driver.switchTo().window(x).close();
         }
         driver.switchTo().window(Current);
+    }
+
+    public static void JsClick(WebElement element, String msg) throws InterruptedException {
+        Thread.sleep(3000);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", element);
+        LogUtils.info(msg);
+
+    }
+    public static void ElementPresent(By element, String keys, String msg) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebElement el = wait.until(ExpectedConditions.presenceOfElementLocated(element));
+        el.sendKeys(keys);
+        LogUtils.info(msg);
+    }
+
+    @FindBy(xpath = "//select[@class=\"dateWrapperSelect\"][2]")
+    WebElement monthselect;
+    @FindBy(xpath = "//select[@class=\"dateWrapperSelect\"]")
+    WebElement yearselect;
+
+    @FindBy(xpath = "//input[@placeholder=\"dd/mm/yyyy\"]")
+    WebElement DOB;
+    public void DatePicker(String year, String month, String date) throws InterruptedException {
+        TestUtil.click(DOB, "Dob clicked");
+        Select yearSelect = new Select(yearselect);
+        yearSelect.selectByValue(year);
+        Thread.sleep(2000);
+        Select monthSelect = new Select(monthselect);
+        monthSelect.selectByVisibleText(month);
+        Thread.sleep(2000);
+        List<WebElement> co = driver.findElements(By.xpath("//div[contains(@class,'react-datepicker__day') and not(contains(@class,'react-datepicker__day--outside-month')) and @aria-disabled='false']"));
+        for (WebElement dateElement : co) {
+            if (dateElement.getText().trim().equals(date)) {
+                dateElement.click();
+                break;
+            }
+        }
+
     }
 
 
