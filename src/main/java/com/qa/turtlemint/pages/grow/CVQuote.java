@@ -10,8 +10,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class CVQuote extends TestBase {
@@ -36,7 +38,7 @@ public class CVQuote extends TestBase {
     WebElement Verticle;
     @FindBy(xpath = "//div[text()='CV']")
     WebElement CV;
-    @FindBy(xpath = "//md-radio-button[@id='radio_18']")
+    @FindBy(xpath = "//md-radio-button[@value='CALCULATOR_CV']")
     WebElement CVCal;
     @FindBy(xpath = "//button[text()= 'Create Quote']")
     WebElement Create;
@@ -60,15 +62,15 @@ public class CVQuote extends TestBase {
 //    WebElement Fuel;
     @FindBy(xpath = "//input[@type= 'search']")
     WebElement make;
-    @FindBy(xpath = "//div[text()= 'Tata']//following::div[@class='rc-virtual-list-holder-inner']")
+    @FindBy(xpath = "//div[text()= 'Ashok Leyland']//following::div[@class='rc-virtual-list-holder-inner']")
     WebElement Tata;
     @FindBy(xpath = "//span[text()='Select fuel']")
     WebElement Fuel;
-    @FindBy(xpath = "//div[@title= 'Petrol']")
+    @FindBy(xpath = "//div[@title= 'Diesel']")
     WebElement Petrol;
     @FindBy(xpath = "//span[text()= 'Select a value']")
     WebElement SubCategory;
-    @FindBy(xpath = "//div[text()= '3 Wheeler Goods Carrying Vehicle']")
+    @FindBy(xpath = "//div[text()= '4 Wheeler Goods Carrying Vehicle']")
     WebElement ThreeWheel;
     @FindBy(xpath = "//input[@label= 'Gross vehicle weight']")
     WebElement Weight;
@@ -90,6 +92,13 @@ public class CVQuote extends TestBase {
     WebElement menu;
     @FindBy(xpath = "//a[@href='https://ninja.turtlemintinsurance.com']")
     WebElement NINJA;
+    @FindBy(xpath = "//select[@class=\"dateWrapperSelect\"][2]")
+    WebElement monthselect;
+    @FindBy(xpath = "//select[@class=\"dateWrapperSelect\"]")
+    WebElement yearselect;
+
+    @FindBy(xpath = "//input[@placeholder='dd/mm/yyyy']")
+    WebElement DOB;
 
     public void cvFlow() throws InterruptedException, IOException {
         TestUtil.click(Quote, "Quote request clicked");
@@ -114,7 +123,7 @@ public class CVQuote extends TestBase {
         TestUtil.sendKeys(RTOLocation, "MH12", "RTO location entered");
         TestUtil.click(RTOLocationselect, "Pune selected");
         TestUtil util = new TestUtil();
-        util.DatePicker("2010", "Oct", "10");
+        DatePicker("2024", "Oct", "10");
         Thread.sleep(3000);
         TestUtil.click(VehicleClass, "Vehicle class GCV clicked");
         TestUtil.click(RegistrationType, "Registration type public clicked");
@@ -124,7 +133,7 @@ public class CVQuote extends TestBase {
         Thread.sleep(2000);
         TestUtil.click(PolicyType, "Policy type COMP clicked");
         Thread.sleep(3000);
-        TestUtil.sendKeys(make, "Tata", "Tata make entered");
+        TestUtil.sendKeys(make, "Ashok", "Ashok make entered");
         Thread.sleep(2000);
         Actions actions = new Actions(driver);
         actions.moveToElement(Tata).click().perform();
@@ -139,8 +148,8 @@ public class CVQuote extends TestBase {
 //        TestUtil.JsClick(SubCategory,"SubCategory clicked");
         TestUtil.click(ThreeWheel, "3 wheel clicked");
         Thread.sleep(2000);
-        TestUtil.sendKeys(Weight, "1245", "Weight entered");
-        TestUtil.sendKeys(IDV, "12476", "IDV entered");
+        TestUtil.sendKeys(Weight, "2400", "Weight entered");
+        TestUtil.sendKeys(IDV, "200000", "IDV entered");
         Thread.sleep(2000);
         TestUtil.click(No, "Claim in previous year clicked");
         Thread.sleep(2000);
@@ -162,9 +171,26 @@ public class CVQuote extends TestBase {
         TestUtil.getFullPageScreenShot();
         driver.switchTo().defaultContent();
 /// Back to home
-        TestUtil.click(back, "Back to home click");
-        TestUtil.click(menu, "Menu click");
-        TestUtil.JsClick(NINJA, "Ninja logo clicked");
+//        TestUtil.click(back, "Back to home click");
+//        TestUtil.click(menu, "Menu click");
+//        TestUtil.JsClick(NINJA, "Ninja logo clicked");
+
+    }
+    public void DatePicker(String year, String month, String date) throws InterruptedException {
+        TestUtil.click(DOB, "Dob clicked");
+        Select yearSelect = new Select(yearselect);
+        yearSelect.selectByValue(year);
+        Thread.sleep(2000);
+        Select monthSelect = new Select(monthselect);
+        monthSelect.selectByVisibleText(month);
+        Thread.sleep(2000);
+        List<WebElement> co = driver.findElements(By.xpath("//div[contains(@class,'react-datepicker__day') and not(contains(@class,'react-datepicker__day--outside-month')) and @aria-disabled='false']"));
+        for (WebElement dateElement : co) {
+            if (dateElement.getText().trim().equals(date)) {
+                dateElement.click();
+                break;
+            }
+        }
 
     }
 }
