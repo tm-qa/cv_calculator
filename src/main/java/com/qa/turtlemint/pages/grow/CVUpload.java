@@ -23,7 +23,6 @@ public class CVUpload extends TestBase {
 
     @FindBy(xpath = "//a[normalize-space(text())='Quote Request']")
     WebElement Quote;
-
     @FindBy(xpath = "//div[text()='All Quotes']")
     WebElement AllQuote;
     @FindBy(xpath = "//div[text()='Get a Quote']")
@@ -56,10 +55,18 @@ public class CVUpload extends TestBase {
     WebElement Verticle1;
     @FindBy(xpath = "//div[@title= 'GCV']")
     WebElement vertSelect;
+    @FindBy(xpath = "//div[@title= 'PCV']")
+    WebElement vertSelectPCV;
+    @FindBy(xpath = "//div[@title= 'MiscD']")
+    WebElement vertSelectMiscD;
     @FindBy(xpath = "//span[text()= 'Select Sub Vertical']")
     WebElement Subctgr;
     @FindBy(xpath = "//div[text()= '4 Wheeler Goods Carrying Vehicle']")
     WebElement SchoolBus;
+    @FindBy(xpath = "//div[text()= 'Taxi']")
+    WebElement Taxi;
+    @FindBy(xpath = "//div[text()= 'Agriculture Tractors upto 6HP']")
+    WebElement aggri;
     @FindBy(xpath = "//span[text()= 'Continue']")
     WebElement Continue;
 
@@ -85,7 +92,7 @@ public class CVUpload extends TestBase {
     WebElement Okay;
 
 
-    public void upload() throws InterruptedException, IOException {
+    public void upload_GCV() throws InterruptedException, IOException {
         LogUtils.info("########## CV Upload flow started ##########");
         Thread.sleep(3000);
         TestUtil.click(Quote, "Quote request clicked");
@@ -123,7 +130,7 @@ public class CVUpload extends TestBase {
         TestUtil.click(Continue, "Continue clicked");
         Thread.sleep(3000);
         lead.isDisplayed();
-        TestUtil.sendKeys(lead, "Suraj","Lead clicked");
+        TestUtil.sendKeys(lead, "Suraj Automation","Lead clicked");
         TestUtil.click(RegistrationType, "Public type clicked");
         act.moveToElement(policyType).click().perform();
 //        TestUtil.JsClick(policyType, "Policy type clicked");
@@ -137,6 +144,8 @@ public class CVUpload extends TestBase {
         Thread.sleep(3000);
         TestUtil.getFullPageScreenShot();
         TestUtil.click(Submit, "Submit clicked");
-        TestUtil.click(Okay,"Okay clicked");
+//        TestUtil.click(Okay,"Okay clicked");
     }
+
+
 }

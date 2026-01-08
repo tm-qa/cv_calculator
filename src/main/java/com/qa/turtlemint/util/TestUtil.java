@@ -4,6 +4,7 @@ import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.PageSnapshot;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import com.github.javafaker.Faker;
+import com.qa.turtlemint.base.TestBase;
 import com.qa.turtlemint.commands.WebCommands;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
@@ -31,7 +32,7 @@ import java.util.Set;
 import static com.qa.turtlemint.base.TestBase.driver;
 import static com.qa.turtlemint.base.TestBase.prop;
 
-public class TestUtil {
+public class TestUtil extends TestBase {
 
     public static long Page_load_time = 60;
     public static long implicit_wait = 12;
@@ -323,30 +324,6 @@ public class TestUtil {
         LogUtils.info(msg);
     }
 
-    @FindBy(xpath = "//select[@class=\"dateWrapperSelect\"][2]")
-    WebElement monthselect;
-    @FindBy(xpath = "//select[@class=\"dateWrapperSelect\"]")
-    WebElement yearselect;
-
-    @FindBy(xpath = "//input[@placeholder=\"dd/mm/yyyy\"]")
-    WebElement DOB;
-    public void DatePicker(String year, String month, String date) throws InterruptedException {
-        TestUtil.click(DOB, "Dob clicked");
-        Select yearSelect = new Select(yearselect);
-        yearSelect.selectByValue(year);
-        Thread.sleep(2000);
-        Select monthSelect = new Select(monthselect);
-        monthSelect.selectByVisibleText(month);
-        Thread.sleep(2000);
-        List<WebElement> co = driver.findElements(By.xpath("//div[contains(@class,'react-datepicker__day') and not(contains(@class,'react-datepicker__day--outside-month')) and @aria-disabled='false']"));
-        for (WebElement dateElement : co) {
-            if (dateElement.getText().trim().equals(date)) {
-                dateElement.click();
-                break;
-            }
-        }
-
-    }
 
 
 }

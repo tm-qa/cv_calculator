@@ -45,15 +45,15 @@ public class ninjaLogin extends TestBase {
     }
 
 
-    @Test(priority = 1, description = "Standalone Journey")
-    public void Standalone() throws InterruptedException, AWTException, IOException {
+    @Test(priority = 1, description = "Rollover_Standalone_Journey")
+    public void Roll_GCVStandalone() throws InterruptedException, IOException {
         cv.cvFlow();
     }
-
-    @Test(priority = 2,description = "QIS_GCV")
-    public void CvUpload() throws IOException, InterruptedException {
-        upload.upload();
+    @Test(priority = 2, description = "QIS_GCV_Automatic")
+    public void QIS_GCV_Automatic() throws IOException, InterruptedException {
+        upload.upload_GCV();
     }
+
 
     @AfterClass
     public void close() {
